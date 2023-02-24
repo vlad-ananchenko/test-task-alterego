@@ -1,0 +1,85 @@
+{
+  "name": "test-task",
+  "version": "0.1.0",
+  "private": true,
+  "dependencies": {
+    "@emotion/react": "^11.10.6",
+    "@emotion/styled": "^11.10.6",
+    "@mui/icons-material": "^5.11.9",
+    "@mui/lab": "^5.0.0-alpha.94",
+    "@mui/material": "^5.11.10",
+    "@mui/styled-engine-sc": "^5.11.9",
+    "@reduxjs/toolkit": "^1.9.3",
+    "@testing-library/jest-dom": "^5.16.5",
+    "@testing-library/react": "^13.4.0",
+    "@testing-library/user-event": "^13.5.0",
+    "@types/jest": "^27.5.2",
+    "@types/react": "^18.0.17",
+    "@types/react-dom": "^18.0.6",
+    "axios": "^0.27.2",
+    "formik": "^2.2.9",
+    "i18next": "^21.9.0",
+    "react": "^18.2.0",
+    "react-cookie": "^4.1.1",
+    "react-dom": "^18.2.0",
+    "react-i18next": "^11.18.3",
+    "react-redux": "^8.0.2",
+    "react-router": "^6.3.0",
+    "react-router-dom": "^6.3.0",
+    "react-scripts": "5.0.1",
+    "redux-logger": "^3.0.6",
+    "styled-components": "^5.3.5",
+    "uuid": "^8.3.2",
+    "uuidv4": "^6.2.13",
+    "web-vitals": "^2.1.4",
+    "yup": "^0.32.11"
+  },
+  "scripts": {
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test",
+    "eject": "react-scripts eject"
+  },
+  "eslintConfig": {
+    "extends": [
+      "react-app",
+      "react-app/jest"
+    ]
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  },
+  "lint-staged": {
+    "src/**/*.{js,jsx,ts,tsx}": "eslint --cache --fix",
+    "src/**/*.{js,jsx,ts,tsx,css,scss,md}": "prettier --write --ignore-unknown"
+  },
+  "devDependencies": {
+    "@types/react-redux": "^7.1.24",
+    "@types/redux-logger": "^3.0.9",
+    "@types/uuid": "^8.3.4",
+    "@types/yup": "^0.29.14",
+    "@typescript-eslint/eslint-plugin": "^5.33.0",
+    "@typescript-eslint/parser": "^5.33.0",
+    "eslint": "^8.21.0",
+    "eslint-config-airbnb": "^19.0.4",
+    "eslint-config-airbnb-typescript": "^17.0.0",
+    "eslint-config-prettier": "^8.5.0",
+    "eslint-plugin-import": "^2.26.0",
+    "eslint-plugin-jsx-a11y": "^6.6.1",
+    "eslint-plugin-prettier": "^4.2.1",
+    "eslint-plugin-react": "^7.30.1",
+    "eslint-plugin-react-hooks": "^4.6.0",
+    "eslint-plugin-unused-imports": "^2.0.0",
+    "prettier": "2.7.1",
+    "typescript": "^4.7.4"
+  }
+}
