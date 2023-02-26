@@ -1,28 +1,23 @@
 import { MouseEventHandler } from 'react';
 import { Link as RouterLink } from 'react-router-dom';
-import { Link } from '@mui/material';
+import { Link, ListItemButton } from '@mui/material';
 
 interface ILoginButton {
   color?: string;
-  value?: string;
+  name?: string;
+  url?: string;
   logOut?: MouseEventHandler<HTMLAnchorElement>;
 }
 
-// test
-const LoginButton = ({ color, value, logOut }: ILoginButton) => (
+const LoginButton = ({ color, name, url, logOut }: ILoginButton) => (
   <Link
+    sx={{ color }}
     underline="none"
     component={RouterLink}
-    to="/auth/signin"
+    to={url || '/'}
     onClick={logOut}
-    sx={{
-      color,
-      ':hover': {
-        color: 'success.main'
-      }
-    }}
   >
-    {value}
+    <ListItemButton>{name}</ListItemButton>
   </Link>
 );
 
@@ -30,6 +25,7 @@ export default LoginButton;
 
 LoginButton.defaultProps = {
   color: '',
-  value: '',
+  name: '',
+  url: '',
   logOut: null
 };

@@ -6,7 +6,7 @@ import LoadingButton from '@mui/lab/LoadingButton';
 import Notification from 'components/notifications/Notification';
 import { loginSchema } from 'utils/validation/auth';
 import { useAppDispatch, useAppSelector } from 'store/hooks/hooks';
-import { authSlice } from 'store/reducers/authSlice';
+import { setUser } from 'store/reducers/authSlice';
 
 export interface ILoginFormValues {
   username: string;
@@ -21,7 +21,6 @@ const LoginForm = () => {
 
   const dispatch = useAppDispatch();
   const { error } = useAppSelector(state => state.authReducer);
-  const { setUser } = authSlice.actions;
   const { message, status } = error;
 
   const initialValues = {

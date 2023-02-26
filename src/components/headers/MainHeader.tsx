@@ -1,41 +1,39 @@
-import { Link as RouterLink, useLocation } from 'react-router-dom';
+import { useEffect } from 'react';
+import { useLocation } from 'react-router-dom';
 import {
   useMediaQuery,
   useTheme,
   Toolbar,
-  IconButton,
   AppBar,
-  Link,
-  Stack
+  Stack,
+  IconButton
 } from '@mui/material';
-import VideocamIcon from '@mui/icons-material/Videocam';
 
 import MainDrawer from 'components/drawers/MainDrawer';
-import { useAppDispatch, useAppSelector } from 'store/hooks/hooks';
-import { authSlice } from 'store/reducers/authSlice';
+import LoginButton from 'components/buttons/LoginButton';
+import HeaderLinkButton from 'components/buttons/HeaderLinkButton';
+import LanguageSwitchButton from 'components/buttons/LanguageSwitchButton';
 import { pages } from 'utils/consts';
-import { useEffect } from 'react';
+import { useGetUserCredentials } from 'hooks/useGetUserCredentials';
 
 const MainHeader = () => {
   const { pathname } = useLocation();
-  const dispatch = useAppDispatch();
+  const location = useLocation();
 
-  const { userCredentials } = useAppSelector(state => state.authReducer);
-  const { username } = userCredentials;
-  const { getUser } = authSlice.actions;
-
-  const { logOut } = authSlice.actions;
+  const { getUser, logOut, username } = useGetUserCredentials();
 
   const theme = useTheme();
   const isMatch = useMediaQuery(theme.breakpoints.down('md'));
 
-  const handleLogOut = () => {
-    dispatch(logOut());
-  };
-
   useEffect(() => {
-    dispatch(getUser());
+    getUser();
   }, [username]);
+
+  const isActiveLink = (path: string) => {
+    const activeLink =
+      location.pathname === path ? 'HighlightText' : 'primary.contrastText';
+    return activeLink;
+  };
 
   return (
     <AppBar sx={{ bgcolor: 'secondary.dark', position: 'sticky' }}>
@@ -45,26 +43,7 @@ const MainHeader = () => {
           justifyContent: 'space-between'
         }}
       >
-        <Link
-          underline="none"
-          sx={{
-            color: 'gray.contrastText',
-            pl: 0
-          }}
-          component={RouterLink}
-          to="/"
-        >
-          <IconButton
-            sx={{
-              color: 'primary.contrastText',
-              ':hover': {
-                color: 'HighlightText'
-              }
-            }}
-          >
-            <VideocamIcon />
-          </IconButton>
-        </Link>
+        <HeaderLinkButton color="gray.contrastText" isLogo />
         {!pathname.includes('auth') && (
           <Stack
             direction="row"
@@ -77,27 +56,19 @@ const MainHeader = () => {
             }}
           >
             {pages.map(page => (
-              <Link
-                component={RouterLink}
+              <HeaderLinkButton
                 key={page.key}
-                to={page.link}
-                sx={{
-                  color: 'primary.contrastText'
-                }}
-              >
-                {page.name}
-              </Link>
+                url={page.link}
+                name={page.name}
+                color={isActiveLink(page.link)}
+              />
             ))}
-            {pathname !== '/profile' && (
-              <Link
-                component={RouterLink}
-                to="/profile"
-                sx={{
-                  color: 'primary.contrastText'
-                }}
-              >
-                Profile
-              </Link>
+            {username && (
+              <HeaderLinkButton
+                url="/profile"
+                name="Profile"
+                color={isActiveLink('/profile')}
+              />
             )}
           </Stack>
         )}
@@ -105,28 +76,28 @@ const MainHeader = () => {
         {isMatch ? (
           <MainDrawer />
         ) : (
-          <Stack direction="row" spacing={8}>
+          <Stack display="flex" direction="row" spacing={8}>
+            <IconButton
+              disableRipple
+              sx={{
+                color: 'primary.contrastText'
+              }}
+            >
+              <LanguageSwitchButton />
+            </IconButton>
+
             {username ? (
-              <Link
-                component={RouterLink}
-                to="/"
-                onClick={handleLogOut}
-                sx={{
-                  color: 'primary.contrastText'
-                }}
-              >
-                Sign Out
-              </Link>
+              <LoginButton
+                color="primary.contrastText"
+                logOut={logOut}
+                name="Sign Out"
+              />
             ) : (
-              <Link
-                component={RouterLink}
-                to="/auth/signin"
-                sx={{
-                  color: 'primary.contrastText'
-                }}
-              >
-                Sign In
-              </Link>
+              <LoginButton
+                color="primary.contrastText"
+                url="/auth/signin"
+                name="Sign In"
+              />
             )}
           </Stack>
         )}

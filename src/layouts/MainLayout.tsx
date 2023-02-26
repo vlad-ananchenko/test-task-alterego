@@ -15,10 +15,8 @@ const MainLayout = () => (
       }}
     >
       <Container maxWidth={false}>
-        <Grid container justifyContent="center">
-          <Grid item>
-            <Outlet />
-          </Grid>
+        <Grid container justifyContent="center" my={4}>
+          <Outlet />
         </Grid>
       </Container>
     </Box>

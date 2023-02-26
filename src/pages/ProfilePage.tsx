@@ -6,7 +6,7 @@ const ProfilePage = () => {
   const { userCredentials } = useAppSelector(state => state.authReducer);
   const { username } = userCredentials;
 
-  return <Box>{username && <h1>Hello {username}</h1>}</Box>;
+  return <Box>{username && <h1>Hello {username}!</h1>}</Box>;
 };
 
 export default ProfilePage;

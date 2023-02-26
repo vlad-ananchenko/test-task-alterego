@@ -1,25 +1,5 @@
-import { SerializedError } from '@reduxjs/toolkit';
-import { FetchBaseQueryError } from '@reduxjs/toolkit/dist/query';
-
 import { IAuthCredentials } from 'store/models/IAuthCredentials';
 import { IError } from 'store/models/IError';
-
-export interface ApiErrorResponse {
-  status: number;
-  data: {
-    error: string;
-    message: string;
-    statusCode: number;
-  };
-}
-
-export const isApiResponseError = (
-  errorType?: FetchBaseQueryError | SerializedError | ApiErrorResponse
-): errorType is ApiErrorResponse =>
-  typeof errorType === 'object' &&
-  errorType != null &&
-  'status' in errorType &&
-  typeof (errorType as any).status === 'number';
 
 export const getUserOrErrorFromLocalStorage = (
   value: 'user' | 'error'
@@ -61,3 +41,6 @@ export const setUserOrErrorToLocalStorage = (
     );
   }
 };
+
+export const capitalized = (phrase: string) =>
+  phrase.charAt(0).toUpperCase() + phrase.slice(1);

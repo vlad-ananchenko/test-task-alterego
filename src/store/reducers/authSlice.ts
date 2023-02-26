@@ -60,4 +60,7 @@ export const authSlice = createSlice({
   }
 });
 
-export default authSlice.reducer;
+const { actions, reducer } = authSlice;
+
+export const { setUser, getUser, setUserError, logOut } = actions;
+export default reducer;

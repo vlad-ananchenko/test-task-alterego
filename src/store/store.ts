@@ -1,6 +1,6 @@
 import { configureStore } from '@reduxjs/toolkit';
 import { rootReducer } from './reducers/rootReducer';
-import validationUserCredentials from './middleware/validationUserCredentials';
+import validationUserMiddleware from './middleware/validationUserMiddleware';
 
 const reduxLogger = require('redux-logger');
 
@@ -9,8 +9,9 @@ const logger = reduxLogger.createLogger();
 export const setupStore = () =>
   configureStore({
     reducer: rootReducer,
+    devTools: process.env.NODE_ENV !== 'production',
     middleware: getDefaultMiddleware =>
-      getDefaultMiddleware().concat(logger).concat(validationUserCredentials)
+      getDefaultMiddleware({}).concat(logger).concat(validationUserMiddleware)
   });
 
 export type RootState = ReturnType<typeof rootReducer>;
