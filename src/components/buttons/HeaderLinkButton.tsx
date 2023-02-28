@@ -29,7 +29,7 @@ const HeaderLinkButton = ({
         sx={{
           color: 'primary.contrastText',
           ':hover': {
-            color: 'HighlightText'
+            color: '#000000'
           }
         }}
       >

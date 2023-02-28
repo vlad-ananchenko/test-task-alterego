@@ -6,11 +6,15 @@ import { pages } from 'utils/consts';
 import { useGetUserCredentials } from 'hooks/useGetUserCredentials';
 import LoginButton from 'components/buttons/LoginButton';
 import MenuListItemButton from 'components/buttons/MenuListItemButton';
+import { useTranslation } from 'react-i18next';
 
 const MainDrawer = () => {
   const [openDrawer, setOpenDrawer] = useState(false);
-
   const { getUser, logOut, username } = useGetUserCredentials();
+
+  const { t } = useTranslation();
+
+  const routes = pages();
 
   useEffect(() => {
     getUser();
@@ -20,7 +24,7 @@ const MainDrawer = () => {
     <>
       <Drawer open={openDrawer} onClose={() => setOpenDrawer(false)}>
         <List>
-          {pages.map(page => (
+          {routes.map(page => (
             <MenuListItemButton
               key={page.key}
               url={page.link}
@@ -31,7 +35,7 @@ const MainDrawer = () => {
           {username && (
             <MenuListItemButton
               url="/profile"
-              buttonName="Profile"
+              buttonName={t('header.profile')}
               setOpenDrawer={setOpenDrawer}
             />
           )}
@@ -39,12 +43,12 @@ const MainDrawer = () => {
             <LoginButton
               color="secondary.dark"
               logOut={logOut}
-              name="Sign Out"
+              name={t('header.signOut')}
             />
           ) : (
             <LoginButton
               color="secondary.main"
-              name="Sign In"
+              name={t('header.signIn')}
               url="/auth/signin"
             />
           )}

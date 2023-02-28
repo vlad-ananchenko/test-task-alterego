@@ -1,9 +1,14 @@
+import { useTranslation } from 'react-i18next';
 import { Box, Button } from '@mui/material';
 
-const PaginationButton = () => {
-  const handleShowMoreNewsItems = () => {
-    console.log('Show more news items');
-  };
+interface IPaginationButtonProps {
+  handleShowMoreNewsItems: () => void;
+}
+
+const PaginationButton = ({
+  handleShowMoreNewsItems
+}: IPaginationButtonProps) => {
+  const { t } = useTranslation();
 
   return (
     <Box pt={4}>
@@ -15,7 +20,7 @@ const PaginationButton = () => {
           color: 'secondary.dark'
         }}
       >
-        More News
+        {t('newsPage.paginationButton')}
       </Button>
     </Box>
   );

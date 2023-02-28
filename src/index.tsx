@@ -1,10 +1,13 @@
-import React from 'react';
+import React, { Suspense } from 'react';
 import ReactDOM from 'react-dom/client';
 import { BrowserRouter as Router } from 'react-router-dom';
-import { CssBaseline, ThemeProvider } from '@mui/material';
+import { Box, CssBaseline, ThemeProvider } from '@mui/material';
 import { Provider } from 'react-redux';
-import { setupStore } from 'store/store';
 
+import './i18next/i18n';
+
+import CircleLoader from 'components/spinners/CircleLoader';
+import { setupStore } from 'store/store';
 import theme from 'theme';
 import App from './App';
 
@@ -20,7 +23,20 @@ root.render(
       <Router>
         <ThemeProvider theme={theme}>
           <CssBaseline />
-          <App />
+          <Suspense
+            fallback={
+              <Box
+                sx={{
+                  display: 'flex',
+                  justifyContent: 'center'
+                }}
+              >
+                <CircleLoader />
+              </Box>
+            }
+          >
+            <App />
+          </Suspense>
         </ThemeProvider>
       </Router>
     </Provider>

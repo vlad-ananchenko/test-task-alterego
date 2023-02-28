@@ -1,26 +1,24 @@
 import { useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
-import {
-  useMediaQuery,
-  useTheme,
-  Toolbar,
-  AppBar,
-  Stack,
-  IconButton
-} from '@mui/material';
+import { useMediaQuery, useTheme, Toolbar, AppBar, Stack } from '@mui/material';
 
 import MainDrawer from 'components/drawers/MainDrawer';
 import LoginButton from 'components/buttons/LoginButton';
 import HeaderLinkButton from 'components/buttons/HeaderLinkButton';
-import LanguageSwitchButton from 'components/buttons/LanguageSwitchButton';
+import LanguageToggleButton from 'components/buttons/LanguageToggleButton';
+
 import { pages } from 'utils/consts';
 import { useGetUserCredentials } from 'hooks/useGetUserCredentials';
+import { useTranslation } from 'react-i18next';
 
 const MainHeader = () => {
-  const { pathname } = useLocation();
   const location = useLocation();
 
+  const { t } = useTranslation();
+
   const { getUser, logOut, username } = useGetUserCredentials();
+
+  const routes = pages();
 
   const theme = useTheme();
   const isMatch = useMediaQuery(theme.breakpoints.down('md'));
@@ -31,7 +29,7 @@ const MainHeader = () => {
 
   const isActiveLink = (path: string) => {
     const activeLink =
-      location.pathname === path ? 'HighlightText' : 'primary.contrastText';
+      location.pathname === path ? '#000000' : 'primary.contrastText';
     return activeLink;
   };
 
@@ -44,59 +42,51 @@ const MainHeader = () => {
         }}
       >
         <HeaderLinkButton color="gray.contrastText" isLogo />
-        {!pathname.includes('auth') && (
-          <Stack
-            direction="row"
-            spacing={8}
-            sx={{
-              display: {
-                xs: 'none',
-                md: 'flex'
-              }
-            }}
-          >
-            {pages.map(page => (
-              <HeaderLinkButton
-                key={page.key}
-                url={page.link}
-                name={page.name}
-                color={isActiveLink(page.link)}
-              />
-            ))}
-            {username && (
-              <HeaderLinkButton
-                url="/profile"
-                name="Profile"
-                color={isActiveLink('/profile')}
-              />
-            )}
-          </Stack>
-        )}
+
+        <Stack
+          direction="row"
+          spacing={12}
+          sx={{
+            display: {
+              xs: 'none',
+              md: 'flex'
+            }
+          }}
+        >
+          {routes.map(page => (
+            <HeaderLinkButton
+              key={page.key}
+              url={page.link}
+              name={page.name}
+              color={isActiveLink(page.link)}
+            />
+          ))}
+          {username && (
+            <HeaderLinkButton
+              url="/profile"
+              name={t('header.profile')}
+              color={isActiveLink('/profile')}
+            />
+          )}
+        </Stack>
 
         {isMatch ? (
           <MainDrawer />
         ) : (
           <Stack display="flex" direction="row" spacing={8}>
-            <IconButton
-              disableRipple
-              sx={{
-                color: 'primary.contrastText'
-              }}
-            >
-              <LanguageSwitchButton />
-            </IconButton>
+            <LanguageToggleButton />
 
             {username ? (
               <LoginButton
                 color="primary.contrastText"
                 logOut={logOut}
-                name="Sign Out"
+                name={t('header.signOut')}
               />
             ) : (
               <LoginButton
                 color="primary.contrastText"
                 url="/auth/signin"
-                name="Sign In"
+                name={t('header.signIn')}
               />
             )}
           </Stack>

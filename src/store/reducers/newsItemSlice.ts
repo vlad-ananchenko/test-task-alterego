@@ -1,11 +1,14 @@
 import {
   createSlice,
-  createAsyncThunk,
-  createEntityAdapter
+  createEntityAdapter,
+  PayloadAction
 } from '@reduxjs/toolkit';
-import { useFetchData } from 'hooks/useFetchData';
+
+import { fetchNewsItems } from 'store/api/fetchNewsItems';
 import { INewsItem } from 'store/models/INewsItem';
 import { RootState } from 'store/store';
+
+export type NewsItemStatus = 'loading' | 'failed' | 'succeeded' | 'empty';
 
 const newsItemAdapter = createEntityAdapter<INewsItem>({
   selectId: newsItem => newsItem.id,
@@ -13,24 +16,23 @@ const newsItemAdapter = createEntityAdapter<INewsItem>({
 });
 
 const initialState = newsItemAdapter.getInitialState({
-  status: 'idle'
+  status: 'succeeded' as NewsItemStatus,
+  error: ''
 });
-
-export const fetchNewsItems = createAsyncThunk(
-  'news/fetchNewsItems',
-  async () => {
-    const data = useFetchData<INewsItem[]>() || [];
-
-    return data;
-  }
-);
 
 const newsItemSlice = createSlice({
   name: 'news',
   initialState,
   reducers: {
-    newsReceived(state, action) {
-      newsItemAdapter.setAll(state, action.payload.newsItems);
+    newsReceived(state, { payload }: PayloadAction<INewsItem[]>) {
+      newsItemAdapter.upsertMany(state, payload);
+    },
+    newsRemoved(state, { payload }: PayloadAction<number>) {
+      newsItemAdapter.removeOne(state, payload);
+
+      if (state.status === 'succeeded' && state.ids.length === 0) {
+        state.status = 'empty';
+      }
     }
   },
   extraReducers: builder => {
@@ -38,13 +40,13 @@ const newsItemSlice = createSlice({
       .addCase(fetchNewsItems.pending, state => {
         state.status = 'loading';
       })
-      .addCase(fetchNewsItems.fulfilled, (state, action) => {
-        state.status = 'idle';
-        newsItemAdapter.setAll(state, action.payload as INewsItem[]);
+      .addCase(fetchNewsItems.fulfilled, (state, { payload }) => {
+        state.status = 'succeeded';
+        newsItemAdapter.upsertMany(state, payload as INewsItem[]);
       })
-      .addCase(fetchNewsItems.rejected, state => {
+      .addCase(fetchNewsItems.rejected, (state, { error: { message } }) => {
         state.status = 'failed';
-        // state.error = action.error.message;
+        state.error = message || 'Failed to fetch news items';
       })
       .addDefaultCase(() => {});
   }
@@ -55,5 +57,6 @@ const { actions, reducer } = newsItemSlice;
 export const { selectAll } = newsItemAdapter.getSelectors(
   (state: RootState) => state.newsItemReducer
 );
-export const { newsReceived } = actions;
+
+export const { newsReceived, newsRemoved } = actions;
 export default reducer;

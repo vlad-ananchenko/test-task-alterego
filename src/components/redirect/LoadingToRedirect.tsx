@@ -1,5 +1,6 @@
 import { Box, Typography } from '@mui/material';
 import { useEffect, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router';
 
 interface ILoadingToRedirectProps {
@@ -7,6 +8,7 @@ interface ILoadingToRedirectProps {
 }
 
 const LoadingToRedirect = ({ authenticated }: ILoadingToRedirectProps) => {
+  const { t } = useTranslation();
   const [count, setCount] = useState(3);
   const navigate = useNavigate();
 
@@ -29,13 +31,13 @@ const LoadingToRedirect = ({ authenticated }: ILoadingToRedirectProps) => {
   return (
     <Box>
       {!authenticated ? (
-        <Typography>
-          You will be redirected to the home page in {count} sec
-        </Typography>
+        <Typography>{`${t(
+          'common.redirectMessageNoAuthenticatedUser'
+        )} ${count}...`}</Typography>
       ) : (
-        <Typography>
-          You will be redirected to the profile page in {count} sec
-        </Typography>
+        <Typography>{`${t(
+          'common.redirectMessageAuthenticatedUser'
+        )} ${count}...`}</Typography>
       )}
     </Box>
   );

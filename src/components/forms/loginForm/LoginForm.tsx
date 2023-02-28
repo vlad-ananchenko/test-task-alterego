@@ -7,6 +7,7 @@ import Notification from 'components/notifications/Notification';
 import { loginSchema } from 'utils/validation/auth';
 import { useAppDispatch, useAppSelector } from 'store/hooks/hooks';
 import { setUser } from 'store/reducers/authSlice';
+import { useTranslation } from 'react-i18next';
 
 export interface ILoginFormValues {
   username: string;
@@ -14,6 +15,7 @@ export interface ILoginFormValues {
 }
 
 const LoginForm = () => {
+  const { t } = useTranslation();
   const [openNotification, setOpenNotification] = useState(false);
   const [showErrorMessage, setShowErrorMessage] = useState(false);
   const [notificationMessage, setNotificationMessage] = useState('');
@@ -34,23 +36,19 @@ const LoginForm = () => {
       setNotificationType('error');
       setNotificationMessage(message);
     }
-  }, [message, status, showErrorMessage]);
+  }, [error, showErrorMessage]);
 
   // I know that async doesn't need to be used here but it's looks more readable and natural for me
   const handleSubmitForm = async (values: ILoginFormValues) => {
     const { username, password } = values;
 
-    if (username && password) {
-      dispatch(
-        setUser({
-          username,
-          password
-        })
-      );
-    }
-  };
+    dispatch(
+      setUser({
+        username,
+        password
+      })
+    );
 
-  const handleChangeError = () => {
     if (message && status) {
       setShowErrorMessage(prev => !prev);
     }
@@ -66,12 +64,12 @@ const LoginForm = () => {
         <Form>
           <Stack direction="column" spacing={4}>
             <Typography align="center" variant="h4" component="h1">
-              Log In to your account
+              {t('authPage.title')}
             </Typography>
             <Field
               fullWidth
               name="username"
-              label="Username"
+              label={t('authPage.placeholderUsername')}
               as={TextField}
               error={errors.username && touched.username}
               helperText={touched.username && errors.username}
@@ -79,7 +77,7 @@ const LoginForm = () => {
             <Field
               fullWidth
               name="password"
-              label="Password"
+              label={t('authPage.placeholderPassword')}
               as={TextField}
               error={errors.password && touched.password}
               helperText={touched.password && errors.password}
@@ -91,9 +89,8 @@ const LoginForm = () => {
               type="submit"
               disabled={!dirty}
               fullWidth
-              onClick={handleChangeError}
             >
-              Log In
+              {t('authPage.logInButton')}
             </LoadingButton>
           </Stack>
           <Notification
