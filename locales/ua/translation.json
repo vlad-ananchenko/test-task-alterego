@@ -1,0 +1,34 @@
+{
+  "common": {
+    "redirectMessageNoAuthenticatedUser": "Ви будете перенаправлені на головну сторінку через",
+    "redirectMessageAuthenticatedUser": "Ви будете перенаправлені на сторінку свого профілю через",
+    "notificationErrorMessage": "Невірне ім'я користувача або пароль"
+  },
+  "header": {
+    "main": "Головна",
+    "news": "Новини",
+    "profile": "Профіль",
+    "signIn": "Увійти",
+    "signOut": "Вийти"
+  },
+  "authPage": {
+    "title": "Увійти до свого акаунту",
+    "placeholderUsername": "Ім'я користувача",
+    "placeholderPassword": "Пароль",
+    "logInButton": "Увійти"
+  },
+  "mainPage": {
+    "typography": "Новини"
+  },
+  "newsPage": {
+    "deleteButton": "Видалити новину",
+    "paginationButton": "Більше новин",
+    "typography": "Новин більше не залишилось..."
+  },
+  "profilePage": {
+    "typography": "Привіт"
+  },
+  "nonExistentPage": {
+    "typography": "Сторінка не знайдена"
+  }
+}

@@ -1,0 +1,35 @@
+{
+  "common": {
+    "redirectMessageNoAuthenticatedUser": "You will be redirected to the main page in",
+    "redirectMessageAuthenticatedUser": "You will be redirected to the profile page in",
+    "notificationErrorMessage": "Incorrect username or password"
+  },
+  "header": {
+    "main": "Main",
+    "news": "News",
+    "profile": "Profile",
+    "signIn": "Sign In",
+    "signOut": "Sign Out"
+  },
+
+  "authPage": {
+    "title": "Log In to your account",
+    "placeholderUsername": "Username",
+    "placeholderPassword": "Password",
+    "logInButton": "Log In"
+  },
+  "mainPage": {
+    "typography": "News"
+  },
+  "newsPage": {
+    "deleteButton": "Delete news",
+    "paginationButton": "More News",
+    "typography": "No news items..."
+  },
+  "profilePage": {
+    "typography": "Hello"
+  },
+  "nonExistentPage": {
+    "typography": "Page not found"
+  }
+}
