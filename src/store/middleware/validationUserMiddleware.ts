@@ -13,6 +13,9 @@ export interface IAuthAction<T = IAuthCredentials | IError> {
   payload: T;
 }
 
+// I used the logic of the middleware not exactly according to its purpose,
+// but here the work with the server is simulated,
+// since in the requirements it was not allowed to use a real server or JSON server.
 const validationUserMiddleware: Middleware =
   ({ dispatch }: MiddlewareAPI) =>
   (next: Dispatch<IAuthAction>) =>
